@@ -389,7 +389,14 @@
 
         <!-- INSTRUMENT FIELDS -->
         <div class="fieldset" data-fields="instrument" style="display:none">
-          <label class="first">Instrument(s) cleaned</label>
+          <label class="first">Location</label>
+          <select id="i-location">
+            <option>Auditorium</option>
+            <option>Chapel</option>
+            <option>Multipurpose Hall (MPH)</option>
+          </select>
+
+          <label>Instrument(s) cleaned</label>
           <div class="checks" id="i-instruments">
             <label><input type="checkbox" value="Piano"> Piano</label>
             <label><input type="checkbox" value="Keyboard"> Keyboard</label>
@@ -548,6 +555,7 @@ document.getElementById("log-form").addEventListener("submit", async (e)=>{
       return;
     }
     entry.instruments = checked;
+    entry.area = document.getElementById("i-location").value;
   }
 
   btn.disabled = true;
@@ -646,7 +654,7 @@ function renderTable(){
       details = `${escapeHtml(e.area)} - ${escapeHtml(e.unit)} unit(s)<br><span style="color:var(--ink-soft)">${escapeHtml(e.service)}</span>`;
     } else if(e.category==="instrument"){
       tag = '<span class="tag instrument">Instrument</span>';
-      details = escapeHtml((e.instruments||[]).join(", "));
+      details = `${escapeHtml(e.area||"")}<br>${escapeHtml((e.instruments||[]).join(", "))}`;
     }
     html += `<tr>
       <td>${escapeHtml(formatDMY(e.date))}</td>
